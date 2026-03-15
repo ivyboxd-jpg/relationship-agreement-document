@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Relationship Legal Documentation Center</title>
+    <title>Relationship Legal Documentation</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Sans+Pro:wght@400;600;700&display=swap');
 
@@ -520,7 +520,7 @@
             
             <div class="seal-container-top">
                 <div class="gold-seal">
-                    <!-- MATHEMATICALLY PERFECT GOLD SEAL SVG -->
+                    <!-- MATHEMATICALLY FLAWLESS GOLD SEAL SVG -->
                     <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
                         <defs>
                             <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -531,12 +531,15 @@
                             </linearGradient>
                             
                             <!-- 
-                                Perfect Arcs for Flawless Text Alignment 
-                                By off-setting the radius based on text orientation, 
-                                both texts are positioned exactly at Radius 60 from center.
+                                THE ULTIMATE FIX:
+                                Inner circle is at R=40. Outer circle is at R=76.
+                                Gap is massive (36 pixels wide).
+                                Paths are perfectly centered at R=58. 
+                                Using dominant-baseline="middle" alignment-baseline="middle"
+                                guarantees the text is suspended in empty space, touching NOTHING.
                             -->
-                            <path id="top-arc" d="M 47, 100 A 53, 53 0 0, 1 153, 100" fill="none" />
-                            <path id="bottom-arc" d="M 33, 100 A 67, 67 0 0, 0 167, 100" fill="none" />
+                            <path id="top-arc" d="M 42, 100 A 58, 58 0 0, 1 158, 100" fill="none" />
+                            <path id="bottom-arc" d="M 158, 100 A 58, 58 0 0, 1 42, 100" fill="none" />
                         </defs>
 
                         <!-- Background Ribbons -->
@@ -545,32 +548,30 @@
 
                         <!-- Main Circular Badge Outlines -->
                         <circle cx="100" cy="100" r="85" fill="url(#gold)" stroke="#7a5c11" stroke-width="2"/>
-                        <circle cx="100" cy="100" r="78" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.8"/>
-                        <circle cx="100" cy="100" r="72" fill="none" stroke="#5a4208" stroke-width="1" opacity="0.5"/>
-                        <circle cx="100" cy="100" r="46" fill="none" stroke="#5a4208" stroke-width="1.5" opacity="0.8"/>
+                        <circle cx="100" cy="100" r="80" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.8"/>
+                        
+                        <!-- WIDENED GAP BOUNDARIES (R=76 and R=40) -->
+                        <circle cx="100" cy="100" r="76" fill="none" stroke="#5a4208" stroke-width="1" opacity="0.5"/>
+                        <circle cx="100" cy="100" r="40" fill="none" stroke="#5a4208" stroke-width="1.5" opacity="0.8"/>
 
-                        <!-- Perfectly Centered Text Paths -->
-                        <text font-family="'Source Sans Pro', sans-serif" font-size="13.5" font-weight="700" fill="#3d2c05" letter-spacing="3">
-                            <textPath href="#top-arc" startOffset="50%" text-anchor="middle">OOFFICIAL GUARANTEEE</textPath>
+                        <!-- Text perfectly centered in the 36-pixel gap -->
+                        <text font-family="'Source Sans Pro', sans-serif" font-size="11" font-weight="700" fill="#3d2c05" letter-spacing="1.5" dominant-baseline="middle" alignment-baseline="middle">
+                            <textPath href="#top-arc" startOffset="50%" text-anchor="middle">OFFICIAL GUARANTEE</textPath>
                         </text>
-                        <text font-family="'Source Sans Pro', sans-serif" font-size="13.5" font-weight="700" fill="#3d2c05" letter-spacing="3">
+                        <text font-family="'Source Sans Pro', sans-serif" font-size="11" font-weight="700" fill="#3d2c05" letter-spacing="1.5" dominant-baseline="middle" alignment-baseline="middle">
                             <textPath href="#bottom-arc" startOffset="50%" text-anchor="middle">LIFETIME VALIDITY</textPath>
                         </text>
 
-                        <!-- Spacer Dots at exactly R=60 -->
-                        <circle cx="40" cy="100" r="2.5" fill="#3d2c05" />
-                        <circle cx="160" cy="100" r="2.5" fill="#3d2c05" />
+                        <!-- Spacer Dots centered in the gap -->
+                        <circle cx="42" cy="100" r="2.5" fill="#3d2c05" />
+                        <circle cx="158" cy="100" r="2.5" fill="#3d2c05" />
 
-                        <!-- Elegant, Sleek, Symmetrical Heart Crest -->
-                        <path d="M 100, 122 C 100,122 82,102 82,88 C 82,76 96,73 100,84 C 104,73 118,76 118,88 C 118,102 100,122 100,122 Z" fill="#3d2c05"/>
+                        <!-- Elegant, Symmetrical Heart Crest (No Stars) safely inside R=40 -->
+                        <path d="M 100, 116 C 100,116 84,98 84,86 C 84,76 96,73 100,83 C 104,73 116,76 116,86 C 116,98 100,116 100,116 Z" fill="#3d2c05"/>
                         
-                        <!-- Golden Keyhole flawlessly centered inside the heart -->
-                        <circle cx="100" cy="91" r="3.5" fill="url(#gold)" />
-                        <path d="M 97.5,92 L 102.5,92 L 103.5,100 L 96.5,100 Z" fill="url(#gold)" />
-
-                        <!-- Four-point legal/compass stars framing the center -->
-                        <path d="M 65,94 L 66.5,98.5 L 71,100 L 66.5,101.5 L 65,106 L 63.5,101.5 L 59,100 L 63.5,98.5 Z" fill="#3d2c05"/>
-                        <path d="M 135,94 L 136.5,98.5 L 141,100 L 136.5,101.5 L 135,106 L 133.5,101.5 L 129,100 L 133.5,98.5 Z" fill="#3d2c05"/>
+                        <!-- Golden Keyhole -->
+                        <circle cx="100" cy="89" r="3" fill="url(#gold)" />
+                        <path d="M 98,90 L 102,90 L 103,97 L 97,97 Z" fill="url(#gold)" />
                     </svg>
                 </div>
             </div>
@@ -594,7 +595,7 @@
 
             <div class="meta-grid">
                 <strong>Product Covered:</strong> <span>Niv's Love & Commitment</span>
-                <strong>Serial Number:</strong> <span>190525-AARA-KISS</span>
+                <strong>Serial Number:</strong> <span>190525-AARA</span>
                 <strong>Issue Date:</strong> <span>May 19, 2025</span>
                 <strong>Warranty Period:</strong> <span>LIFETIME (No Expiration)</span>
             </div>
@@ -614,7 +615,7 @@
                 <li><svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="var(--accent-green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 Working through any conflict together, and always making up completely</li>
                 <li><svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="var(--accent-green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                <span class="flirt-highlight">Forehead kisses, taking the blame for eating the last snack, and staring at you while you're not looking.</span></li>
+                <span class="flirt-highlight">Forehead kisses and adniring you through the distance, you're very pretty.</span></li>
             </ul>
 
             <h3 class="section-header" style="margin-top: 35px;">Warranty Exclusions: NONE</h3>
@@ -648,7 +649,7 @@
                 This warranty is active at all times. No documentation needed. No proof of purchase necessary. Coverage is automatic, immediate, and completely unconditional.
             </p>
             <p class="doc-body-text" style="font-weight: 700; text-align: center; margin: 25px 0; font-style: italic;">
-                "Simply being Aaradhya is legally sufficient for full, lifetime warranty benefits."
+                Simply being Aaradhya is legally sufficient for full, lifetime warranty benefits.
             </p>
 
             <hr class="divider-single">
@@ -698,7 +699,7 @@
                 <p class="doc-body-text"><span class="article-num">2.1 TERM:</span> This agreement commenced on May 19, 2025 and continues indefinitely without any expiration date.</p>
                 <p class="doc-body-text"><span class="article-num">2.2 TERMINATION:</span> There are no conditions under which this agreement may be unilaterally terminated. Fights, disagreements, bad days, or distance do NOT constitute grounds for termination, now or ever.</p>
                 <p class="doc-body-text"><span class="article-num">2.3 PERMANENCE GUARANTEE:</span> The undersigned party (Niv) guarantees that his commitment persists regardless of difficulty or temporary discord.</p>
-                <p class="doc-body-text"><span class="article-num flirt-highlight">2.4 THE "MAKE-UP" CLAUSE:</span> Any breach of peace or temporary argument must, by law, be followed by an aggressive amount of reassurance, apologies if necessary, and mandatory cuddles.</p>
+                <p class="doc-body-text"><span class="article-num flirt-highlight">2.4 THE "MAKE-UP" CLAUSE:</span> Any breach of peace or temporary argument must, by law, be followed by an aggressive amount of reassurance, apologies if necessary, and mandatory hand holding.</p>
             </div>
 
             <hr class="divider-single">
@@ -894,6 +895,19 @@
             <div class="faq-item">
                 <div class="faq-q">
                     <span class="qa-label">Q9:</span>
+                    <span>Am I overreacting?</span>
+                </div>
+                <div class="faq-a">
+                    <span class="qa-label">A:</span>
+                    <span>Legally and officially: your feelings are always valid. Even if a reaction feels big in the moment, the emotion underneath it is real and deserves to be heard. I'm not here to judge how you process things; I'm just here to hold your hand while you do. We will untangle the details together once the storm passes.</span>
+                </div>
+            </div>
+
+            <hr class="divider-single">
+
+            <div class="faq-item">
+                <div class="faq-q">
+                    <span class="qa-label">Q10:</span>
                     <span>How do we move forward from a disagreement?</span>
                 </div>
                 <div class="faq-a">
@@ -906,12 +920,12 @@
 
             <div class="faq-item">
                 <div class="faq-q">
-                    <span class="qa-label">Q10:</span>
+                    <span class="qa-label">Q11:</span>
                     <span>Are you sure you're not leaving?</span>
                 </div>
                 <div class="faq-a">
                     <span class="qa-label">A:</span>
-                    <span>I am 10,000% sure. I know arguments can make things feel uncertain, but this is a hard, evergreen fact: I am not leaving. You can count on that.</span>
+                    <span>I am 14,000% sure. I know arguments can make things feel uncertain, but this is a hard, evergreen fact: I am not leaving. You can count on that.</span>
                 </div>
             </div>
 
@@ -919,7 +933,7 @@
 
             <div class="faq-item">
                 <div class="faq-q">
-                    <span class="qa-label flirt-highlight">Q11:</span>
+                    <span class="qa-label flirt-highlight">Q12:</span>
                     <span class="flirt-highlight">Would you love me if I had thin lips?</span>
                 </div>
                 <div class="faq-a">
