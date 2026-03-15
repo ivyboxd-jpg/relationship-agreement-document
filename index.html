@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relationship Legal Documentation Center</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Sans+Pro:wght@400;600;700&display=swap');
+
+        :root {
+            --bg-color: #2b2b2b;
+            --doc-bg: #fcfaf5; 
+            --doc-border: #1a1a1a;
+            --text-main: #1c1c1c;
+            --text-muted: #4a4a4a;
+            --tab-inactive: #e0dcd3;
+            --tab-border: #a39e93;
+            --accent-gold: #c5a059;
+            --accent-gold-dark: #8b6914;
+            --stamp-red: #a82e2e;
+            --accent-green: #2d7a3e;
+            
+            --font-serif: 'Playfair Display', Georgia, serif;
+            --font-sans: 'Source Sans Pro', Arial, sans-serif;
+            --font-mono: 'Courier New', Courier, monospace;
+            
+            --doc-padding: 70px 60px;
+            --max-width: 850px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: radial-gradient(#3a3a3a 1px, transparent 1px);
+            background-size: 20px 20px;
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .documentation-center {
+            width: 100%;
+            max-width: var(--max-width);
+            position: relative;
+        }
+
+        /* --- HEADER --- */
+        .page-header {
+            background-color: var(--doc-bg);
+            border: 1px solid var(--doc-border);
+            padding: 30px 20px;
+            text-align: center;
+            margin-bottom: 40px;
+            font-family: var(--font-serif);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .page-header::after {
+            content: '';
+            position: absolute;
+            top: 4px; left: 4px; right: 4px; bottom: 4px;
+            border: 1px solid rgba(0,0,0,0.1);
+            pointer-events: none;
+        }
+
+        .page-header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .page-header p {
+            font-size: 16px;
+            font-style: italic;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+        }
+        
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 15px;
+            padding: 6px 14px;
+            border: 1px solid var(--accent-green);
+            color: var(--accent-green);
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 1.5px;
+            background: rgba(45, 122, 62, 0.05);
+            border-radius: 3px;
+        }
+
+        /* --- TABS --- */
+        .tabs {
+            display: flex;
+            margin-bottom: -1px;
+            position: relative;
+            z-index: 10;
+            gap: 4px;
+            padding: 0 10px;
+        }
+
+        .tab {
+            flex: 1;
+            background-color: var(--tab-inactive);
+            border: 1px solid var(--tab-border);
+            border-bottom: none;
+            border-radius: 8px 8px 0 0;
+            padding: 16px 10px;
+            cursor: pointer;
+            font-family: var(--font-sans);
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: var(--text-muted);
+            transition: all 0.2s ease;
+            text-align: center;
+            box-shadow: inset 0 -4px 6px rgba(0,0,0,0.03);
+        }
+
+        .tab:hover {
+            background-color: #e8e5df;
+            color: var(--text-main);
+        }
+
+        .tab.active {
+            background-color: var(--doc-bg);
+            color: var(--text-main);
+            font-weight: 700;
+            border: 1px solid var(--doc-border);
+            border-bottom: 1px solid var(--doc-bg);
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
+            position: relative;
+            top: 1px;
+            padding-top: 18px;
+        }
+
+        /* --- DOCUMENT AREA --- */
+        .documents-container {
+            background-color: var(--doc-bg);
+            background-image: linear-gradient(90deg, transparent 95%, rgba(0,0,0,0.02) 100%),
+                              linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 28px;
+            border: 1px solid var(--doc-border);
+            position: relative;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            min-height: 600px;
+        }
+
+        .document {
+            display: none;
+            padding: var(--doc-padding);
+            font-family: var(--font-serif);
+            animation: fadeIn 0.4s ease forwards;
+            position: relative;
+        }
+
+        .document.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- DOCUMENT TYPOGRAPHY --- */
+        .doc-title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin: 10px 0 8px 0;
+            letter-spacing: 2px;
+            color: var(--text-main);
+        }
+
+        .doc-subtitle {
+            text-align: center;
+            font-size: 15px;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .divider-ornamental {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 35px 0;
+            opacity: 0.7;
+        }
+        .divider-ornamental::before, .divider-ornamental::after {
+            content: '';
+            height: 1px;
+            background: var(--text-main);
+            flex: 1;
+        }
+        .divider-ornamental span {
+            margin: 0 15px;
+            font-size: 14px;
+            color: var(--text-main);
+            letter-spacing: 2px;
+        }
+
+        .divider-single {
+            border: none;
+            border-top: 1px solid rgba(0,0,0,0.2);
+            margin: 30px 0;
+        }
+
+        .section-header {
+            font-size: 18px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            letter-spacing: 1.5px;
+            font-family: var(--font-sans);
+            color: var(--text-main);
+        }
+
+        .doc-body-text {
+            font-size: 16px;
+            line-height: 1.8;
+            text-align: justify;
+            margin-bottom: 18px;
+            color: #222;
+        }
+
+        .meta-grid {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 12px 25px;
+            margin: 25px 0;
+            font-size: 16px;
+            font-family: var(--font-mono);
+            background: rgba(0,0,0,0.02);
+            padding: 22px;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .meta-grid strong {
+            font-weight: bold;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-size: 13px;
+            letter-spacing: 1.5px;
+        }
+
+        /* --- LISTS --- */
+        ul.coverage-list {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+
+        ul.coverage-list li {
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 12px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .svg-icon {
+            position: absolute;
+            left: 0;
+            top: 4px;
+            width: 18px;
+            height: 18px;
+        }
+
+        ul.standard-list {
+            list-style-type: none;
+            padding-left: 20px;
+            margin-bottom: 25px;
+        }
+        
+        ul.standard-list li {
+            position: relative;
+            margin-bottom: 10px;
+            font-size: 16px;
+            padding-left: 20px;
+        }
+        
+        ul.standard-list li::before {
+            content: '§';
+            position: absolute;
+            left: 0;
+            color: var(--accent-gold-dark);
+            font-family: var(--font-serif);
+            font-weight: bold;
+        }
+
+        /* --- TERMS & CONDITIONS SPECIFIC --- */
+        .article {
+            margin-bottom: 35px;
+        }
+        .article-num {
+            font-weight: 700;
+            font-family: var(--font-sans);
+            margin-right: 8px;
+            color: var(--text-main);
+        }
+
+        /* --- FAQ SPECIFIC --- */
+        .faq-item {
+            margin-bottom: 30px;
+        }
+        .faq-q {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            gap: 12px;
+            color: var(--text-main);
+        }
+        .faq-a {
+            font-size: 16px;
+            line-height: 1.8;
+            text-align: left;
+            display: flex;
+            gap: 12px;
+            color: #222;
+        }
+        .qa-label {
+            font-weight: 700;
+            font-family: var(--font-sans);
+            color: var(--accent-gold-dark);
+            min-width: 30px;
+        }
+
+        /* --- SIGNATURE BLOCK --- */
+        .signature-block {
+            margin-top: 60px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: end;
+        }
+
+        .sig-line {
+            margin-bottom: 20px;
+            font-size: 14px;
+            font-family: var(--font-sans);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .sig-space {
+            display: inline-block;
+            border-bottom: 1px solid var(--text-main);
+            width: 220px;
+            font-family: 'Brush Script MT', 'Dancing Script', cursive, var(--font-serif);
+            font-size: 32px;
+            text-align: center;
+            line-height: 0.8;
+            padding-bottom: 5px;
+            text-transform: none;
+            color: #1a1a1a;
+        }
+
+        /* --- SEALS & STAMPS --- */
+        .seal-container-top {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .gold-seal {
+            width: 150px;
+            height: 150px;
+            position: relative;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+        }
+
+        .red-stamp-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: -80px;
+        }
+
+        .rubber-stamp {
+            width: 150px;
+            height: 150px;
+            border: 5px double var(--stamp-red);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--stamp-red);
+            font-family: var(--font-mono);
+            font-weight: bold;
+            text-transform: uppercase;
+            transform: rotate(-8deg);
+            opacity: 0.9;
+            mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100" height="100" filter="url(%23noise)" opacity="0.6"/><rect width="100" height="100" fill="white" opacity="0.7"/></svg>');
+            -webkit-mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100" height="100" fill="white"/><rect width="100" height="100" filter="url(%23noise)" opacity="0.4"/></svg>');
+            mix-blend-mode: multiply;
+        }
+
+        .rubber-stamp .stamp-text-top {
+            font-size: 15px;
+            letter-spacing: 3px;
+            margin-bottom: 6px;
+        }
+
+        .rubber-stamp .stamp-center {
+            font-size: 22px;
+            border-top: 1.5px solid var(--stamp-red);
+            border-bottom: 1.5px solid var(--stamp-red);
+            padding: 8px 0;
+            width: 85%;
+            letter-spacing: 3px;
+            line-height: 1;
+        }
+
+        .rubber-stamp .stamp-date {
+            font-size: 12px;
+            margin-top: 10px;
+            letter-spacing: 1.5px;
+        }
+
+        .doc-id {
+            text-align: left;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 40px;
+            letter-spacing: 1.5px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            padding-top: 12px;
+        }
+
+        /* Highlight classes for flirty/witty text */
+        .flirt-highlight {
+            background-color: rgba(197, 160, 89, 0.15);
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 700px) {
+            .tabs {
+                flex-direction: column;
+                gap: 0;
+                padding: 0;
+            }
+            .tab {
+                border-radius: 0;
+                border: 1px solid var(--doc-border);
+                border-bottom: none;
+            }
+            .tab:first-child { border-radius: 8px 8px 0 0; }
+            .tab.active {
+                top: 0;
+                padding-top: 16px;
+                border-bottom: 1px solid var(--doc-bg);
+            }
+            
+            .document {
+                padding: 40px 25px;
+            }
+
+            .signature-block {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .red-stamp-container {
+                justify-content: center;
+                margin-top: 10px;
+            }
+
+            .doc-title {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="documentation-center">
+    
+    <!-- HEADER -->
+    <header class="page-header">
+        <h1>Relationship Legal Documentation</h1>
+        <p>Niv & Aaradhya &nbsp;—&nbsp; Est. May 19, 2025</p>
+        <div class="status-badge">STATUS: WE ALWAYS MAKE UP • ALL GOOD</div>
+    </header>
+
+    <!-- NAVIGATION -->
+    <nav class="tabs">
+        <button class="tab active" data-target="warranty">Warranty Certificate</button>
+        <button class="tab" data-target="terms">Terms & Conditions</button>
+        <button class="tab" data-target="faq">Universal Protocol</button>
+    </nav>
+
+    <!-- DOCUMENTS CONTAINER -->
+    <div class="documents-container">
+        
+        <!-- DOCUMENT 1: WARRANTY CERTIFICATE -->
+        <div class="document active" id="warranty">
+            
+            <div class="seal-container-top">
+                <div class="gold-seal">
+                    <!-- MATHEMATICALLY PERFECT GOLD SEAL SVG -->
+                    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#e6c27a" />
+                                <stop offset="30%" stop-color="#f5d796" />
+                                <stop offset="70%" stop-color="#c5a059" />
+                                <stop offset="100%" stop-color="#8b6914" />
+                            </linearGradient>
+                            
+                            <!-- 
+                                Perfect Arcs for Flawless Text Alignment 
+                                By off-setting the radius based on text orientation, 
+                                both texts are positioned exactly at Radius 60 from center.
+                            -->
+                            <path id="top-arc" d="M 47, 100 A 53, 53 0 0, 1 153, 100" fill="none" />
+                            <path id="bottom-arc" d="M 33, 100 A 67, 67 0 0, 0 167, 100" fill="none" />
+                        </defs>
+
+                        <!-- Background Ribbons -->
+                        <path d="M 60,150 L 40,195 L 65,185 L 90,195 L 75,150 Z" fill="url(#gold)" stroke="#7a5c11" stroke-width="1.5" stroke-linejoin="round"/>
+                        <path d="M 140,150 L 160,195 L 135,185 L 110,195 L 125,150 Z" fill="url(#gold)" stroke="#7a5c11" stroke-width="1.5" stroke-linejoin="round"/>
+
+                        <!-- Main Circular Badge Outlines -->
+                        <circle cx="100" cy="100" r="85" fill="url(#gold)" stroke="#7a5c11" stroke-width="2"/>
+                        <circle cx="100" cy="100" r="78" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.8"/>
+                        <circle cx="100" cy="100" r="72" fill="none" stroke="#5a4208" stroke-width="1" opacity="0.5"/>
+                        <circle cx="100" cy="100" r="46" fill="none" stroke="#5a4208" stroke-width="1.5" opacity="0.8"/>
+
+                        <!-- Perfectly Centered Text Paths -->
+                        <text font-family="'Source Sans Pro', sans-serif" font-size="13.5" font-weight="700" fill="#3d2c05" letter-spacing="3">
+                            <textPath href="#top-arc" startOffset="50%" text-anchor="middle">OFFICIAL GUARANTEE</textPath>
+                        </text>
+                        <text font-family="'Source Sans Pro', sans-serif" font-size="13.5" font-weight="700" fill="#3d2c05" letter-spacing="3">
+                            <textPath href="#bottom-arc" startOffset="50%" text-anchor="middle">LIFETIME VALIDITY</textPath>
+                        </text>
+
+                        <!-- Spacer Dots at exactly R=60 -->
+                        <circle cx="40" cy="100" r="2.5" fill="#3d2c05" />
+                        <circle cx="160" cy="100" r="2.5" fill="#3d2c05" />
+
+                        <!-- Elegant, Sleek, Symmetrical Heart Crest -->
+                        <path d="M 100, 122 C 100,122 82,102 82,88 C 82,76 96,73 100,84 C 104,73 118,76 118,88 C 118,102 100,122 100,122 Z" fill="#3d2c05"/>
+                        
+                        <!-- Golden Keyhole flawlessly centered inside the heart -->
+                        <circle cx="100" cy="91" r="3.5" fill="url(#gold)" />
+                        <path d="M 97.5,92 L 102.5,92 L 103.5,100 L 96.5,100 Z" fill="url(#gold)" />
+
+                        <!-- Four-point legal/compass stars framing the center -->
+                        <path d="M 65,94 L 66.5,98.5 L 71,100 L 66.5,101.5 L 65,106 L 63.5,101.5 L 59,100 L 63.5,98.5 Z" fill="#3d2c05"/>
+                        <path d="M 135,94 L 136.5,98.5 L 141,100 L 136.5,101.5 L 135,106 L 133.5,101.5 L 129,100 L 133.5,98.5 Z" fill="#3d2c05"/>
+                    </svg>
+                </div>
+            </div>
+
+            <h2 class="doc-title">Lifetime Warranty Certificate</h2>
+            <div class="doc-subtitle">Status: Perpetually Valid (Applies to all past, present, and future disagreements)</div>
+            
+            <div class="divider-ornamental"><span>✦</span></div>
+
+            <p class="doc-body-text" style="text-align: center; font-size: 18px; font-style: italic;">
+                This certifies that the holder of this document is eternally entitled to:
+            </p>
+
+            <div style="text-align: center; font-weight: 700; font-size: 20px; line-height: 2; margin: 25px 0; color: var(--accent-gold-dark); font-family: var(--font-sans); letter-spacing: 1px;">
+                UNLIMITED, UNCONDITIONAL LOVE<br>
+                PERMANENT COMMITMENT<br>
+                GUARANTEED PRESENCE
+            </div>
+
+            <div class="divider-ornamental"><span>✦</span></div>
+
+            <div class="meta-grid">
+                <strong>Product Covered:</strong> <span>Niv's Love & Commitment</span>
+                <strong>Serial Number:</strong> <span>190525-AARA-KISS</span>
+                <strong>Issue Date:</strong> <span>May 19, 2025</span>
+                <strong>Warranty Period:</strong> <span>LIFETIME (No Expiration)</span>
+            </div>
+
+            <hr class="divider-single">
+
+            <h3 class="section-header">Coverage Details</h3>
+            <p class="doc-body-text">This warranty strictly covers and guarantees the following at all times:</p>
+            <ul class="coverage-list">
+                <!-- SVG Checkmarks -->
+                <li><svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="var(--accent-green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Love during fights, disagreements, and our most stubborn moments</li>
+                <li><svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="var(--accent-green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Commitment during difficult or uncomfortable conversations</li>
+                <li><svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="var(--accent-green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Patience whenever you're upset</li>
+                <li><svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="var(--accent-green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Working through any conflict together, and always making up completely</li>
+                <li><svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="var(--accent-green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span class="flirt-highlight">Forehead kisses, taking the blame for eating the last snack, and staring at you while you're not looking.</span></li>
+            </ul>
+
+            <h3 class="section-header" style="margin-top: 35px;">Warranty Exclusions: NONE</h3>
+            <p class="doc-body-text">Please note that this warranty does <strong>NOT</strong> expire due to:</p>
+            <ul class="coverage-list">
+                <!-- SVG Crossmarks -->
+                <li><svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="var(--stamp-red)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                Arguments or disagreements (even the exceptionally dumb ones)</li>
+                <li><svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="var(--stamp-red)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                Bad days, difficult moments, or mood swings</li>
+                <li><svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="var(--stamp-red)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                You being genuinely upset with me</li>
+                <li><svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="var(--stamp-red)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                Imperfect communication</li>
+            </ul>
+
+            <hr class="divider-single">
+
+            <h3 class="section-header">Special Provisions:</h3>
+            <ul class="standard-list">
+                <li>Fights are officially recognized as covered incidents, not warranty voids.</li>
+                <li>Disagreements are normal, expected, and inevitably end with us realizing we just missed each other.</li>
+                <li>This warranty continuously strengthens over time and never degrades.</li>
+                <li>Valid regardless of distance (whether it's 2,083km or 0km).</li>
+            </ul>
+
+            <hr class="divider-single">
+
+            <h3 class="section-header">Claim Process: NOT REQUIRED</h3>
+            <p class="doc-body-text">
+                This warranty is active at all times. No documentation needed. No proof of purchase necessary. Coverage is automatic, immediate, and completely unconditional.
+            </p>
+            <p class="doc-body-text" style="font-weight: 700; text-align: center; margin: 25px 0; font-style: italic;">
+                "Simply being Aaradhya is legally sufficient for full, lifetime warranty benefits."
+            </p>
+
+            <hr class="divider-single">
+
+            <h3 class="section-header">Certified True and Binding</h3>
+            
+            <div class="signature-block">
+                <div>
+                    <div class="sig-line"><strong>Authorized Signatory:</strong> <br><span class="sig-space">Niv</span></div>
+                    <div class="sig-line"><strong>Date of Issue:</strong> May 19, 2025</div>
+                    <div class="sig-line"><strong>Status:</strong> PERPETUITY / ALL GOOD</div>
+                </div>
+                <div class="red-stamp-container">
+                    <div class="rubber-stamp">
+                        <div class="stamp-text-top">OFFICIALLY</div>
+                        <div class="stamp-center">VERIFIED</div>
+                        <div class="stamp-date">RENEWED DAILY</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="doc-id">DOC ID: AARA-CERT-2025-001 • NOTARIZED</div>
+        </div>
+
+        <!-- DOCUMENT 2: TERMS & CONDITIONS -->
+        <div class="document" id="terms">
+            
+            <h2 class="doc-title">Terms & Conditions of Loving You</h2>
+            <div class="doc-subtitle">
+                Effective Date: May 19, 2025<br>
+                Status: Evergreen & Immutable
+            </div>
+            
+            <div class="divider-ornamental"><span>§</span></div>
+
+            <div class="article">
+                <h3 class="section-header">Article I: Definitions</h3>
+                <p class="doc-body-text"><span class="article-num">1.1</span> "You" or "Aaradhya" means the beautiful, slightly stubborn, but entirely perfect person to whom these terms universally apply.</p>
+                <p class="doc-body-text"><span class="article-num">1.2</span> "Love" means unconditional care, respect, and commitment, completely independent of perfect harmony or total agreement.</p>
+                <p class="doc-body-text"><span class="article-num">1.3</span> "Fight" or "Conflict" means any temporary disagreement, argument, or difficult conversation, which is considered a normal function of two passionate people and does not constitute a breach of contract.</p>
+            </div>
+
+            <hr class="divider-single">
+
+            <div class="article">
+                <h3 class="section-header">Article II: Term & Termination</h3>
+                <p class="doc-body-text"><span class="article-num">2.1 TERM:</span> This agreement commenced on May 19, 2025 and continues indefinitely without any expiration date.</p>
+                <p class="doc-body-text"><span class="article-num">2.2 TERMINATION:</span> There are no conditions under which this agreement may be unilaterally terminated. Fights, disagreements, bad days, or distance do NOT constitute grounds for termination, now or ever.</p>
+                <p class="doc-body-text"><span class="article-num">2.3 PERMANENCE GUARANTEE:</span> The undersigned party (Niv) guarantees that his commitment persists regardless of difficulty or temporary discord.</p>
+                <p class="doc-body-text"><span class="article-num flirt-highlight">2.4 THE "MAKE-UP" CLAUSE:</span> Any breach of peace or temporary argument must, by law, be followed by an aggressive amount of reassurance, apologies if necessary, and mandatory cuddles.</p>
+            </div>
+
+            <hr class="divider-single">
+
+            <div class="article">
+                <h3 class="section-header">Article III: Unconditional Guarantees</h3>
+                <p class="doc-body-text"><span class="article-num">3.1</span> I am not leaving.</p>
+                <p class="doc-body-text"><span class="article-num">3.2</span> Arguments do not change my feelings for you.</p>
+                <p class="doc-body-text"><span class="article-num">3.3</span> Disagreements are normal and expected. They do not threaten us.</p>
+                <p class="doc-body-text"><span class="article-num">3.4</span> I love you just as much when you're upset with me.</p>
+                <p class="doc-body-text"><span class="article-num">3.5</span> My commitment is not conditional on easy moments or perfect agreement.</p>
+            </div>
+
+            <hr class="divider-single">
+
+            <div class="article">
+                <h3 class="section-header">Article IV: Conflict Protocol</h3>
+                <p class="doc-body-text"><span class="article-num">4.1 ACKNOWLEDGMENT:</span> Both parties acknowledge that fights are a normal part of any healthy relationship.</p>
+                <p class="doc-body-text"><span class="article-num">4.2 RESOLUTION COMMITMENT:</span> The undersigned commits to continuously working through conflicts rather than avoiding them.</p>
+                <p class="doc-body-text"><span class="article-num">4.3 COOLING-OFF PERIOD:</span> Either party may request space to process. This never equates to a withdrawal of love.</p>
+            </div>
+
+            <hr class="divider-single">
+
+            <div class="article">
+                <h3 class="section-header">Article V: Your Rights</h3>
+                <p class="doc-body-text">You (Aaradhya) have the unalienable right to:</p>
+                <p class="doc-body-text"><span class="article-num">5.1</span> Be upset without fear of abandonment.</p>
+                <p class="doc-body-text"><span class="article-num">5.2</span> Disagree with me without consequences.</p>
+                <p class="doc-body-text"><span class="article-num">5.3</span> Express your feelings honestly.</p>
+                <p class="doc-body-text"><span class="article-num">5.4</span> Change your mind.</p>
+                <p class="doc-body-text"><span class="article-num flirt-highlight">5.5</span> The universal right to infinite kisses upon resolution of any conflict.</p>
+            </div>
+
+            <hr class="divider-single">
+
+            <div class="article">
+                <h3 class="section-header">Article VI: My Obligations</h3>
+                <p class="doc-body-text">I (Niv) hereby commit to:</p>
+                <p class="doc-body-text"><span class="article-num">6.1</span> Stay present through difficulty.</p>
+                <p class="doc-body-text"><span class="article-num">6.2</span> Apologize when I'm wrong (and occasionally when I just want you to smile).</p>
+                <p class="doc-body-text"><span class="article-num">6.3</span> Remember that you're human, not perfect, but undeniably perfect for me.</p>
+                <p class="doc-body-text"><span class="article-num flirt-highlight">6.4</span> Look at you and think "damn she's pretty" even when you're glaring at me.</p>
+            </div>
+
+            <hr class="divider-single">
+
+            <div class="article">
+                <h3 class="section-header">Article VII: Non-Negotiables</h3>
+                <p class="doc-body-text"><span class="article-num">7.1</span> My commitment to you is completely non-negotiable.</p>
+                <p class="doc-body-text"><span class="article-num">7.2</span> Fights do not void this agreement. We are always on the same team.</p>
+                <p class="doc-body-text"><span class="article-num">7.3</span> I will not leave when things get hard.</p>
+            </div>
+
+            <hr class="divider-single">
+
+            <h3 class="section-header">Acceptance</h3>
+            <p class="doc-body-text">By continuing to exist and be breathtakingly gorgeous, I (Niv) accept these terms unconditionally and in perpetuity.</p>
+
+            <div class="signature-block">
+                <div>
+                    <div class="sig-line"><strong>Signed:</strong> <br><span class="sig-space">Niv</span></div>
+                    <div class="sig-line"><strong>Date:</strong> Valid Forever</div>
+                </div>
+                <div class="red-stamp-container">
+                    <div class="rubber-stamp">
+                        <div class="stamp-text-top">LEGALLY</div>
+                        <div class="stamp-center">BINDING</div>
+                        <div class="stamp-date">NO TAKE-BACKS</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="doc-id">DOC ID: AARA-TC-2025-001 • FILED & SECURED</div>
+        </div>
+
+        <!-- DOCUMENT 3: FAQ PROTOCOL -->
+        <div class="document" id="faq">
+            
+            <h2 class="doc-title" style="font-size: 28px;">Frequently Asked Questions:<br>Universal Protocol</h2>
+            <div class="doc-subtitle">Status: Applies to all past, present, and future disagreements</div>
+            
+            <div class="divider-ornamental"><span>?</span></div>
+
+            <p class="doc-body-text" style="font-style: italic; text-align: center; margin-bottom: 35px; color: var(--text-muted);">
+                This FAQ addresses concerns that may arise during or following any disagreement. All answers are evergreen, legally binding, completely truthful, and effective immediately at all times.
+            </p>
+
+            <div class="faq-item">
+                <div class="faq-q">
+                    <span class="qa-label">Q1:</span>
+                    <span>Are you leaving?</span>
+                </div>
+                <div class="faq-a">
+                    <span class="qa-label">A:</span>
+                    <span>Still no. No matter what the argument is about, I'm not going anywhere. We always make up, and you're completely stuck with me.</span>
+                </div>
+            </div>
+
+            <hr class="divider-single">
+
+            <div class="faq-item">
+                <div class="faq-q">
+                    <span class="qa-label">Q2:</span>
+                    <span>Does arguing change how you feel about me?</span>
+                </div>
+                <div class="faq-a">
+                    <span class="qa-label">A:</span>
+                    <span>No. It changes absolutely nothing about my love or commitment to you. Arguments are temporary, but my feelings about YOU haven't wavered for a second. You're still you. I still love you endlessly.</span>
+                </div>
+            </div>
+
+            <hr class="divider-single">
+
+            <div class="faq-item">
+                <div class="faq-q">
+                    <span class="qa-label">Q3:</span>
+                    <span>Are you upset with me?</span>
+                </div>
+                <div class="faq-a">
+                    <span class="qa-label">A:</span>
+                    <span>Even when things get heated, the storm always passes. The situation is temporary, but you are permanent. I'm always just happy whenever we're talking and okay again.</span>
+                </div>
+            </div>
+
+            <hr class="divider-single">
+
+            <div class="faq-item">
+                <div class="faq-q">
+                    <span class="qa-label">Q4:</span>
+                    <span>Do you still love me?</span>
+                </div>
+                <div class="faq-a">
+                    <span class="qa-label">A:</span>
+                    <span>Always. That hasn't changed and won't ever change. Love doesn't turn off during hard moments. If anything, working through things and coming out the other side just proves how real this is.</span>
+                </div>
+            </div>
+
+            <hr class="divider-single">
+
+            <div class="faq-item">
+                <div class="faq-q">
+                    <span class="qa-label">Q5:</span>
+                    <span>Are we okay?</span>
+                </div>
+                <div class="faq-a">
+                    <span class="qa-label">A:</span>
+                    <span><span class="flirt-highlight">We are always okay. Even if we're in the middle of something, the treaty is inevitably signed with kisses, peace is always restored, and I remain hopelessly obsessed with you.</span></span>
+                </div>
+            </div>
+
+            <hr class="divider-single">
+
+            <div class="faq-item">
+                <div class="faq-q">
+                    <span class="qa-label">Q6:</span>
+                    <span>Do you regret this relationship?</span>
+                </div>
+                <div class="faq-a">
+                    <span class="qa-label">A:</span>
+                    <span>Never. Not for a fraction of a second. Every relationship has difficult moments. That doesn't mean I regret choosing you. I choose you in the easy moments, the hard ones, and all the moments in between.</span>
+                </div>
+            </div>
+
+            <hr class="divider-single">
+
+            <div class="faq-item">
+                <div class="faq-q">
+                    <span class="qa-label">Q7:</span>
+                    <span>What if we fight again?</span>
+                </div>
+                <div class="faq-a">
+                    <span class="qa-label">A:</span>
+                    <span>We probably will at some point, because we're human. All healthy relationships have conflicts. What matters is that we work through them with respect and honesty. Fights don't scare me. I'm still here, and I'll still be here next time.</span>
+                </div>
+            </div>
+
+            <hr class="divider-single">
+
+            <div class="faq-item">
+                <div class="faq-q">
+                    <span class="qa-label">Q8:</span>
+                    <span>Do I need to apologize for being upset?</span>
+                </div>
+                <div class="faq-a">
+                    <span class="qa-label">A:</span>
+                    <span>No. You're allowed to have feelings. You're allowed to be upset, frustrated, or hurt. You don't ever need to apologize for experiencing emotions.</span>
+                </div>
+            </div>
+
+            <hr class="divider-single">
+
+            <div class="faq-item">
+                <div class="faq-q">
+                    <span class="qa-label">Q9:</span>
+                    <span>How do we move forward from a disagreement?</span>
+                </div>
+                <div class="faq-a">
+                    <span class="qa-label">A:</span>
+                    <span>Together. We talk, we listen, we understand each other's perspective, and then we keep going—because no single fight defines us, and working through it just makes us stronger.</span>
+                </div>
+            </div>
+
+            <hr class="divider-single">
+
+            <div class="faq-item">
+                <div class="faq-q">
+                    <span class="qa-label">Q10:</span>
+                    <span>Are you sure you're not leaving?</span>
+                </div>
+                <div class="faq-a">
+                    <span class="qa-label">A:</span>
+                    <span>I am 10,000% sure. I know arguments can make things feel uncertain, but this is a hard, evergreen fact: I am not leaving. You can count on that.</span>
+                </div>
+            </div>
+
+            <hr class="divider-single">
+
+            <div class="faq-item">
+                <div class="faq-q">
+                    <span class="qa-label flirt-highlight">Q11:</span>
+                    <span class="flirt-highlight">Would you love me if I had thin lips?</span>
+                </div>
+                <div class="faq-a">
+                    <span class="qa-label flirt-highlight">A:</span>
+                    <span class="flirt-highlight">Look, I’d love you if you had thin lips, no lips, or a literal beak. But legally speaking, your current lips are absolutely perfect, highly kissable, and my absolute favorite. I am very glad they are attached to your face.</span>
+                </div>
+            </div>
+
+            <hr class="divider-single">
+
+            <h3 class="section-header">Final Evergreen Reassurances:</h3>
+            <ul class="standard-list">
+                <li>Any fight is temporary. We are permanent.</li>
+                <li>You are always the exact person I want.</li>
+                <li>Conflict is part of growth, not evidence of failure.</li>
+                <li>Nothing about arguing changes my commitment to you.</li>
+            </ul>
+            
+            <p class="doc-body-text" style="text-align: center; margin-top: 40px; font-weight: bold;">
+                For additional concerns, please cash in on the Mandatory Cuddles Clause (Terms & Conditions, Section 2.4).
+            </p>
+
+            <div class="signature-block">
+                <div></div>
+                <div class="red-stamp-container">
+                    <div class="rubber-stamp" style="transform: rotate(12deg);">
+                        <div class="stamp-text-top">ALWAYS</div>
+                        <div class="stamp-center">RESOLVED</div>
+                        <div class="stamp-date">NEVER LEAVING</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="doc-id">DOC ID: AARA-FAQ-2025-001 • ARCHIVED & ACTIVE</div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const tabs = document.querySelectorAll('.tab');
+        const documents = document.querySelectorAll('.document');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and docs
+                tabs.forEach(t => t.classList.remove('active'));
+                documents.forEach(d => d.classList.remove('active'));
+
+                // Add active class to clicked tab
+                tab.classList.add('active');
+
+                // Get target doc ID and show it
+                const targetId = tab.getAttribute('data-target');
+                const targetDoc = document.getElementById(targetId);
+                
+                if (targetDoc) {
+                    targetDoc.classList.add('active');
+                }
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
